@@ -32,28 +32,23 @@ It demonstrates clean separation of concerns, shared data models, response compr
 - 📄 **Swagger / OpenAPI**: Interactive API docs in Development  
 
 ---
-
 ## Solution Structure
-
 InventoryHub.sln
 ├── Shared
-│ └── Models
-│ ├── Category.cs
-│ └── Product.cs
+│   └── Models
+│       ├── Category.cs
+│       └── Product.cs
 ├── Server
-│ ├── Services
-│ │ └── ProductService.cs
-│ └── Program.cs
+│   ├── Services
+│   │   └── ProductService.cs
+│   └── Program.cs
 └── Client
-├── Pages
-│ └── FetchProducts.razor
-├── Services
-│ └── ProductClient.cs
-└── Program.cs
+    ├── Pages
+    │   └── FetchProducts.razor
+    ├── Services
+    │   └── ProductClient.cs
+    └── Program.cs
 
-yaml
-Copy
-Edit
 
 ---
 
