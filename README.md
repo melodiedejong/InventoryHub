@@ -51,7 +51,7 @@ InventoryHub.sln
     ├── Services
     │   └── ProductClient.cs
     └── Program.cs
-
+```
 
 ---
 
@@ -102,4 +102,83 @@ This project taught me to treat Copilot as a collaborative developer—it excels
 git clone https://github.com/your-org/InventoryHub.git
 cd InventoryHub
 dotnet build
+```
 
+---
+
+## Running the App
+
+### Start the API Backend
+
+```bash
+cd Server
+dotnet run
+```
+
+Listens on:
+
+- https://localhost:5001 (HTTPS)  
+- http://localhost:5000 (HTTP)
+
+### Start the Blazor WASM Client
+
+```bash
+cd ../Client
+dotnet run
+```
+
+Serves at:  
+https://localhost:5238
+
+### Browse the UI
+
+Open your browser to:  
+https://localhost:5238/fetchproducts
+
+---
+
+## Key Technologies
+
+- .NET 7 / C# 11  
+- ASP.NET Core Minimal APIs  
+- Blazor WebAssembly  
+- System.Text.Json with source-gen options  
+- Response Compression & Caching Middleware  
+- Swagger / Swashbuckle  
+
+---
+
+## Contributing
+
+1. Fork the repo  
+2. Create a feature branch:  
+   ```bash
+   git checkout -b feature/my-awesome-feature
+   ```
+3. Commit your changes & push  
+4. Open a Pull Request – we’ll review it together!  
+
+---
+
+## Future Roadmap
+
+- ✅ Complete initial List (GET) endpoint  
+- 🔄 Add full CRUD: POST, PUT, DELETE with validation  
+- 🔍 Implement filtering, sorting & paging parameters  
+- 💾 Swap in EF Core + SQL Server or SQLite backend  
+- 📊 Build dashboards for stock analytics  
+- 🚧 Enhance client resiliency with Polly-based retries  
+
+---
+
+## GitHub Copilot Credits
+
+I leveraged GitHub Copilot extensively to bootstrap and refine this solution:
+
+- **Project Scan-up**: Generated initial minimal-API boilerplate (CORS, Swagger, Endpoints)  
+- **Service Layer**: Suggested encapsulating mock data in `ProductService`, centralizing `Category` instances  
+- **Compression & Caching**: Recommended response-compression middleware and `[ResponseCache]` metadata  
+- **Error Handling**: Guided setup of `DeveloperExceptionPage`, global `/error` handler, and fallback behavior  
+- **Client Fetch**: Scaffolded `OnInitializedAsync`, `GetFromJsonAsync`, and error handling logic in `FetchProducts.razor`  
+
+💡 Thank you, Copilot, for accelerating my development journey! 🚀
