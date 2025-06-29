@@ -32,7 +32,10 @@ It demonstrates clean separation of concerns, shared data models, response compr
 - 📄 **Swagger / OpenAPI**: Interactive API docs in Development  
 
 ---
+
 ## Solution Structure
+
+```
 InventoryHub.sln
 ├── Shared
 │   └── Models
