@@ -1,0 +1,110 @@
+﻿@* FetchProducts.razor
+
+ GitHub Copilot Contributions:
+  1) Scaffolded OnInitializedAsync with HttpClient call + 10 second timeout.
+  2) Added JsonSerializerOptions for case-insensitive mapping.
+  3) Refined error handling (HTTP errors, timeouts, JSON parse failures).
+
+*@
+
+@page "/"
+@inject HttpClient HttpClient
+@using System.Text.Json
+@using InventoryHub.Shared.Models;
+
+<h3>Product Inventory</h3>
+
+<ul>
+   @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <li style="color:red">@errorMessage</li>
+    }
+    else if (products is not null)
+    {
+         <table class="table table-striped table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price ($)</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Category?.Name</td>
+                    <td>@product.Price.ToString("F2")</td>
+                    <td>@product.Stock</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    else
+    {
+        <li>Loading...</li>
+    }
+</ul>
+
+@code {
+    // Stores fetched products or remains null until loaded
+    private List<Product>? products;
+
+    // Holds an error message to display if something goes wrong
+    private string? errorMessage;
+
+    /// <summary>
+    /// Called once when the component initializes.
+    /// Fetches the product list from the API with robust error handling.
+    /// </summary>
+        
+        // Copilot generated initial async API call logic and later helped refine deserialization and error handling.
+        protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Bound the HTTP call to 10 seconds
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10)); // 10s timeout
+
+            // Request data
+            var response = await HttpClient.GetAsync("http://localhost:5082/api/products", cts.Token);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                 // Surface HTTP errors in the UI
+                errorMessage = $"API Error: {response.StatusCode}";
+                return;
+            }
+
+            var json = await response.Content.ReadAsStringAsync(cts.Token);
+
+            // Deserialize JSON into our shared Product model
+            products = JsonSerializer.Deserialize<List<Product>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            if (products is null)
+            {
+                errorMessage = "No products found or invalid response format.";
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            errorMessage = "Request timed out.";
+        }
+        catch (JsonException)
+        {
+            errorMessage = "Failed to parse product data.";
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred: {ex.Message}";
+        }
+    }
+
+
+}
